@@ -1,0 +1,3 @@
+tqdm
+pdfminer.six
+pandas
