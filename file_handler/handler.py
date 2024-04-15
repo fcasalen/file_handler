@@ -38,6 +38,8 @@ class FileHandler:
         For slides and pdfs, items will be slide number and data their text
         
         For json and txt files, items will have only one key(Unique) and data their data"
+
+        If `load_first_value` will load item_0_data, which will be the original data from txt and json files, or the first slide, sheet or page in ppt, xls and pdf files
         """
         if isinstance(file_paths, str):
             file_paths = [file_paths]
@@ -50,7 +52,7 @@ class FileHandler:
             ) for file_path in file_paths
         }
         if load_first_value:
-            first_value = data[list(data.keys())[0]]
+            first_value:dict = list(data.values())[0]
             data = list(first_value.values())[0]
         return data
     
