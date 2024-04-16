@@ -1,3 +1,4 @@
 tqdm
 pdfminer.six
 pandas
+pptx
