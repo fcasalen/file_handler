@@ -1,4 +1,4 @@
-from pandas import read_csv, DataFrame, ExcelWriter
+from pandas import read_csv, DataFrame
 from .validators import DataFrameData
 from .utils import error_loading
 
