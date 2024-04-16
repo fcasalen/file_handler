@@ -78,9 +78,9 @@ class FileHandler:
         
         For json and txt files, items should have only one key(Unique) and data their data
 
-        If json files have more than one item key, then the data_dict will be consider the data itself
+        If json files have more than one item key or not the key Unique, then the data_dict will be consider the data itself
 
-        If txt files have more than one item key, the data will be transformed in string like this:
+        If txt files have more than one item key or not the key Unique, the data will be transformed in string like this:
 
         "item_0
         

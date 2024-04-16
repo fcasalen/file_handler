@@ -15,7 +15,9 @@ class TxtHandler:
         if len(data.keys()) > 1:
             data = [f'{k}\n{v}' for k,v in data.items()]
             data = "\n\n".join(data)
-        else:
+        elif list(data.keys())[0] == 'Unique':
             data = list(data.values())[0]
+        else:
+            data = f'{list(data.keys())[0]}\n{list(data.values())[0]}'
         with open(file_path, 'w', encoding=encoding) as f:
             f.write(data)

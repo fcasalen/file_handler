@@ -13,7 +13,7 @@ class JsonHandler:
 
     def write(file_path:str, encoding:str, data:dict[str, dict|list]):
         JsonData(data=data)
-        if len(data.keys()) == 1:
+        if len(data.keys()) == 1 and list(data.keys())[0] == 'Unique':
             data = list(data.values())[0]
         data = serialize_datetime(data)
         with open(file_path, 'w', encoding=encoding) as f:
