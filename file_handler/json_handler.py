@@ -11,7 +11,7 @@ class JsonHandler:
         except Exception as error:
             return error_loading(file_path, error=error)
 
-    def write(file_path:str, encoding:str, data:dict[str, dict|list]):
+    def write(file_path:str, encoding:str, data:dict[str, list|dict|str|int|float|bool|None]):
         JsonData(data=data)
         if len(data.keys()) == 1 and list(data.keys())[0] == 'Unique':
             data = list(data.values())[0]
