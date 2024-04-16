@@ -7,7 +7,7 @@ class StringData(BaseModel):
     data:str
 
 class TxtData(BaseModel):
-    data:dict[str, str]
+    data:str|dict[str, str]
 
 class JsonData(BaseModel):
     data:dict[str, list|dict|str|int|float|bool|None]
@@ -23,7 +23,7 @@ class FilePaths(BaseModel):
 
 class FileHanderData(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
-    data:dict[str, dict[str, list|dict|str|int|float|bool|None|DataFrame]]
+    data:dict[str, str|DataFrame|dict[str, list|dict|str|int|float|bool|None|DataFrame]]
 
     @field_validator("data")
     def validate_file_exists(cls, value):
@@ -34,4 +34,4 @@ class FileHanderData(BaseModel):
 
 class DataFrameData(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
-    data:dict[str, DataFrame]
+    data:DataFrame|dict[str, DataFrame]

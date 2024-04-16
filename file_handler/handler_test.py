@@ -17,3 +17,9 @@ def test_all():
     data = FileHandler.load(file_paths=file_path)
     assert data == {file_path: {'Unique': json_data}}
     remove(file_path)
+    file_path = join(dirname(__file__), 'mocks/test.txt')
+    json_data = 'oi'
+    FileHandler.write(file_handler_data={file_path: json_data})
+    data = FileHandler.load(file_paths=file_path)
+    assert data == {file_path: {'Unique': json_data}}
+    remove(file_path)
