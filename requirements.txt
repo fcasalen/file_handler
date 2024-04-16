@@ -1,4 +1,6 @@
 tqdm
 pdfminer.six
 pandas
-pptx
+python-pptx
+openpyxl
+fastparquet
