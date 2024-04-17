@@ -29,7 +29,7 @@ class FileHanderData(BaseModel):
     def validate_file_exists(cls, value):
         for k in value.keys():
             dir_name = dirname(k)
-            if not exists(dir_name):
+            if not exists(dir_name) and dir_name != '':
                 makedirs(dir_name)
 
 class DataFrameData(BaseModel):

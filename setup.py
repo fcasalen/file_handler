@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='file_handler',
-    version='0.1',
+    version='0.1.1',
     license="GNU GENERAL PUBLIC LICENSE",
     author="fcasalen",
     author_email="fcasalen@gmail.com",
