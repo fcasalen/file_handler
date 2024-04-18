@@ -5,7 +5,7 @@ from .excel_handler import ExcelHandler
 from .pdf_handler import PDFHandler
 from .ppt_handler import PPTHandler
 from .validators import StringData, FilePaths, FileHanderData
-from .utils import get_ext
+from .utils import get_ext, deserialize_datetime
 
 decider = {
     '.txt': TxtHandler,
@@ -100,3 +100,7 @@ class FileHandler:
                 encoding=encoding,
                 data=data_dict
             )
+        
+    def deserialize_datetimes_in_json(json:dict):
+        "json files don't accept datetime object, so they are saved converting datetime objects in string in isoformat. This method converts strings that matchs isoformat to a datetime back again"
+        return deserialize_datetime(json)
