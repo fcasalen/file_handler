@@ -20,7 +20,7 @@ def test_all():
     JsonHandler.write(file_path=file_path, encoding='utf-8', data=data)
     assert JsonHandler.load(file_path=file_path, encoding='utf-8') == {
         'Unique': {
-            'ha': [fake_dt],
+            'ha': [fake_dt.isoformat()],
             'lol': ['lol']
         }
     }
@@ -35,7 +35,7 @@ def test_all():
     assert JsonHandler.load(file_path=file_path, encoding='utf-8') == {
         'Unique': {
             'one': {
-                'ha': fake_dt,
+                'ha': fake_dt.isoformat(),
                 'lol': 'lol'
             },
             'two': ['lol2']
