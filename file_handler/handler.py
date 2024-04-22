@@ -17,6 +17,7 @@ decider = {
 }
 
 class FileHandler:
+    @staticmethod
     def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False):
         """
         will load files in a nested dictionary like this:
@@ -62,6 +63,7 @@ class FileHandler:
             data = list(first_value.values())[0]
         return data
     
+    @staticmethod
     def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w'):
         """
         will write files as indicading in `file_handler_data` that needs to be a nested diciontary like this:
