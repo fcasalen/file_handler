@@ -42,6 +42,9 @@ class FileHandler:
         If `load_first_value` will load item_0_data, which will be the original data from txt and json files, or the first slide, sheet or page in ppt, xls and pdf files
 
         `mode` should be r or rb and it only affects json and txt files
+
+        if extension is not txt, json, xlsx, ppt, pptx or pdf, will treat as txt file
+        
         """
         if isinstance(file_paths, str):
             file_paths = [file_paths]
@@ -59,7 +62,7 @@ class FileHandler:
             data = list(first_value.values())[0]
         return data
     
-    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8'):
+    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w'):
         """
         will write files as indicading in `file_handler_data` that needs to be a nested diciontary like this:
 
@@ -75,6 +78,10 @@ class FileHandler:
             item_1: item_1_data
         }
         
+        `mode` should be w or wb and it only affects json and txt files
+
+        if extension is not txt, json, xlsx, ppt, pptx or pdf, will treat as txt file
+
         For excel files, items should be sheetnames and data their dataframes
         
         For slides and pdfs, this package isn't writing data yet (it will print a message stating that)
@@ -101,7 +108,8 @@ class FileHandler:
             return decider[ext].write(
                 file_path=file_path,
                 encoding=encoding,
-                data=data_dict
+                data=data_dict,
+                mode=mode
             )
         
     def deserialize_datetimes_in_json(json:dict):

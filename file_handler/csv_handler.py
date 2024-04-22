@@ -9,7 +9,7 @@ class CSVHandler:
         except Exception as error:
             return error_loading(file_path, error=error)
 
-    def write(file_path:str, encoding:str, data:DataFrame|dict[str, DataFrame]):
+    def write(file_path:str, encoding:str, data:DataFrame|dict[str, DataFrame], mode:str = 'w'):
         DataFrameData(data=data)
         if isinstance(data, DataFrame):
             data.to_csv(file_path, index=False)

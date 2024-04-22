@@ -31,6 +31,6 @@ class PPTHandler:
         except Exception as error:
             return error_loading(file_path, error=error)
 
-    def write(file_path:str, encoding:str, data:dict[str, str]):
+    def write(file_path:str, encoding:str, data:dict[str, str], mode:str = 'w'):
         TxtData(data=data)
         print("I can't write ppt files yet!")

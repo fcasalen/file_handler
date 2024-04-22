@@ -9,7 +9,7 @@ class ParquetHandler:
         except Exception as error:
             return error_loading(file_path, error=error)
 
-    def write(file_path:str, encoding:str, data:dict[str, DataFrame]):
+    def write(file_path:str, encoding:str, data:dict[str, DataFrame], mode:str = 'w'):
         DataFrameData(data=data)
         if len(data.keys()) > 1:
             for k,v in data.items():
