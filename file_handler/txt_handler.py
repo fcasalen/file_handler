@@ -4,6 +4,8 @@ from .utils import error_loading
 class TxtHandler:
     def load(file_path:str, encoding:str, mode:str = 'r'):
         try:
+            if mode == 'rb':
+                encoding = None
             with open(file_path, mode=mode, encoding=encoding) as f:
                 data = f.read()
             return {'Unique': data}

@@ -5,7 +5,9 @@ from .utils import serialize_datetime, error_loading
 class JsonHandler:
     def load(file_path:str, encoding:str, mode:str = 'r'):
         try:
-            with open(file_path, mode, encoding=encoding) as f:
+            if mode == 'rb':
+                encoding = None
+            with open(file_path, mode=mode, encoding=encoding) as f:
                 data = load(f)
             return {'Unique': data}
         except Exception as error:
