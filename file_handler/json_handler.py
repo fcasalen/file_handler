@@ -3,7 +3,7 @@ from .validators import JsonData
 from .utils import serialize_datetime, error_loading
 
 class JsonHandler:
-    def load(file_path:str, encoding:str, mode:str):
+    def load(file_path:str, encoding:str, mode:str = 'r'):
         try:
             with open(file_path, mode, encoding=encoding) as f:
                 data = load(f)

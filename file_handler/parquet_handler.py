@@ -3,7 +3,7 @@ from .validators import DataFrameData
 from .utils import error_loading
 
 class ParquetHandler:
-    def load(file_path:str, encoding:str, mode:str):
+    def load(file_path:str, encoding:str, mode:str = 'r'):
         try:
             return {'Unique': read_parquet(file_path)}
         except Exception as error:
