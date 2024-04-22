@@ -14,6 +14,8 @@ class TxtHandler:
 
     def write(file_path:str, encoding:str, data:str|dict[str, str], mode:str = 'w'):
         TxtData(data=data)
+        if mode == 'wb':
+            encoding = None
         if not isinstance(data, str):
             if len(data.keys()) == 1 and list(data.keys())[0] == 'Unique':
                 data = list(data.values())[0]
