@@ -3,7 +3,7 @@ from datetime import datetime
 from re import match, sub
 
 def get_ext(file_path:str, valid_keys:dict):
-    _,ext = splitext(file_path)
+    _,ext = splitext(file_path.lower())
     if ext not in valid_keys:
         ext = '.txt'
     return ext
