@@ -10,7 +10,7 @@ from .utils import error_loading, adjust_phrases
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Users\xxxx\AppData\Local\Programs\Tesseract-OCR\\tesseract.exe'
 
 class PDFHandler:
-    def load(file_path:str, encoding:str):
+    def load(file_path:str, encoding:str, mode:str):
         try:
             pages = {}
             for numPage, pagina_layout in tqdm(enumerate(extract_pages(file_path), start=1), desc = f'Extracting pages from pdf file {file_path}'):

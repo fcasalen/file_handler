@@ -3,9 +3,9 @@ from .validators import JsonData
 from .utils import serialize_datetime, error_loading
 
 class JsonHandler:
-    def load(file_path:str, encoding:str):
+    def load(file_path:str, encoding:str, mode:str):
         try:
-            with open(file_path, 'r', encoding=encoding) as f:
+            with open(file_path, mode, encoding=encoding) as f:
                 data = load(f)
             return {'Unique': data}
         except Exception as error:

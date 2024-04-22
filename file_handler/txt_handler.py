@@ -2,9 +2,9 @@ from .validators import TxtData
 from .utils import error_loading
 
 class TxtHandler:
-    def load(file_path:str, encoding:str):
+    def load(file_path:str, encoding:str, mode:str):
         try:
-            with open(file_path, 'r', encoding=encoding) as f:
+            with open(file_path, mode=mode, encoding=encoding) as f:
                 data = f.read()
             return {'Unique': data}
         except Exception as error:

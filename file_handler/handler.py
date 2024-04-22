@@ -17,7 +17,7 @@ decider = {
 }
 
 class FileHandler:
-    def load(file_paths:str|list[str], encoding:str = 'utf-8', load_first_value:bool = False):
+    def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False):
         """
         will load files in a nested dictionary like this:
 
@@ -40,6 +40,8 @@ class FileHandler:
         For json and txt files, items will have only one key(Unique) and data their data"
 
         If `load_first_value` will load item_0_data, which will be the original data from txt and json files, or the first slide, sheet or page in ppt, xls and pdf files
+
+        `mode` should be r or rb and it only affects json and txt files
         """
         if isinstance(file_paths, str):
             file_paths = [file_paths]
@@ -49,6 +51,7 @@ class FileHandler:
             file_path: decider[get_ext(file_path=file_path, valid_keys=decider)].load(
                 file_path=file_path,
                 encoding=encoding,
+                mode = mode
             ) for file_path in file_paths
         }
         if load_first_value:

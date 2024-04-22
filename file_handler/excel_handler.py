@@ -3,7 +3,7 @@ from .validators import DataFrameData
 from .utils import error_loading
 
 class ExcelHandler:
-    def load(file_path:str, encoding:str):
+    def load(file_path:str, encoding:str, mode:str):
         try:
             return read_excel(file_path, sheet_name=None)
         except Exception as error:
