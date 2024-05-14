@@ -1,4 +1,5 @@
 from pandas import DataFrame
+from tqdm import tqdm
 from .json_handler import JsonHandler
 from .txt_handler import TxtHandler
 from .excel_handler import ExcelHandler
@@ -56,7 +57,7 @@ class FileHandler:
                 file_path=file_path,
                 encoding=encoding,
                 mode = mode
-            ) for file_path in file_paths
+            ) for file_path in tqdm(file_paths, desc='Loading data...')
         }
         if load_first_value:
             first_value:dict = list(data.values())[0]
@@ -105,7 +106,7 @@ class FileHandler:
         """
         FileHanderData(data=file_handler_data)
         StringData(data=encoding)
-        for file_path, data_dict in file_handler_data.items():
+        for file_path, data_dict in tqdm(file_handler_data.items(), desc='LWriting data...'):
             ext = get_ext(file_path=file_path, valid_keys=decider)
             return decider[ext].write(
                 file_path=file_path,

@@ -31,17 +31,17 @@ class PDFHandler:
         print("I can't write pdf files yet!")
 
 
-def extract_text_from_image(element:LTFigure, numPage:int):
-    text = ''
-    for subel in element:
-        if not isinstance(subel, LTImage):
-            continue
-        try:
-            imagem_bytes = subel.stream.get_rawdata()
-            image = Image.open(BytesIO(imagem_bytes))
-            text += pytesseract.image_to_string(image)
-        except Exception:
-            print(f"Couldn't get text from image in page {numPage}")
-    return text
+# def extract_text_from_image(element:LTFigure, numPage:int):
+#     text = ''
+#     for subel in element:
+#         if not isinstance(subel, LTImage):
+#             continue
+#         try:
+#             imagem_bytes = subel.stream.get_rawdata()
+#             image = Image.open(BytesIO(imagem_bytes))
+#             text += pytesseract.image_to_string(image)
+#         except Exception:
+#             print(f"Couldn't get text from image in page {numPage}")
+#     return text
 
 
