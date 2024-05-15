@@ -1,5 +1,7 @@
 from pandas import DataFrame
 from tqdm import tqdm
+from multiprocess import Pool
+from functools import partial
 from .json_handler import JsonHandler
 from .txt_handler import TxtHandler
 from .excel_handler import ExcelHandler
@@ -17,9 +19,25 @@ decider = {
     '.pptx': PPTHandler
 }
 
+def loader(file_path:str, encoding:str, mode:str):
+    return decider[get_ext(file_path=file_path, valid_keys=decider)].load(
+        file_path=file_path,
+        encoding=encoding,
+        mode = mode
+    )
+
+def writer(file_hander_data_items:tuple, encoding:str, mode:str):
+    file_path, data_dict = file_hander_data_items
+    decider[get_ext(file_path=file_path, valid_keys=decider)].write(
+        file_path=file_path,
+        encoding=encoding,
+        data=data_dict,
+        mode=mode
+    )
+
 class FileHandler:
     @staticmethod
-    def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False, progress_bar:bool = True):
+    def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False, progress_bar:bool = True, multiprocess:bool = False):
         """
         will load files in a nested dictionary like this:
 
@@ -45,6 +63,10 @@ class FileHandler:
 
         `mode` should be r or rb and it only affects json and txt files
 
+        `progress_bar` True or False to show a progress_bar while executing
+
+        `multiprocess` True or False to use multiprocessing to speed up execution (increases overhead, so this will speed the overall execution only if a bunch of files are being processed)
+
         if extension is not txt, json, xlsx, ppt, pptx or pdf, will treat as txt file
         
         """
@@ -52,12 +74,28 @@ class FileHandler:
             file_paths = [file_paths]
         FilePaths(file_paths=file_paths)
         StringData(data=encoding)
-        data = {
-            file_path: decider[get_ext(file_path=file_path, valid_keys=decider)].load(
+        if multiprocess:
+            with Pool() as p:
+                results = list(
+                    tqdm(
+                        p.imap(partial(loader, encoding=encoding, mode=mode), file_paths),
+                        disable=not progress_bar,
+                        total=len(file_paths),
+                        desc='Loading data...'
+                    )
+                )
+            data = {file_path:result for file_path, result in zip(file_paths, results)}
+        else:
+            data = {
+            file_path: loader(
                 file_path=file_path,
                 encoding=encoding,
                 mode = mode
-            ) for file_path in tqdm(file_paths, desc='Loading data...', disable=not progress_bar)
+            ) for file_path in tqdm(
+                file_paths,
+                disable=not progress_bar,
+                desc='Loading data...'
+            )
         }
         if load_first_value:
             first_value:dict = list(data.values())[0]
@@ -65,7 +103,7 @@ class FileHandler:
         return data
     
     @staticmethod
-    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w', progress_bar:bool = True):
+    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w', progress_bar:bool = True, multiprocess:bool = False):
         """
         will write files as indicading in `file_handler_data` that needs to be a nested diciontary like this:
 
@@ -106,15 +144,43 @@ class FileHandler:
         """
         FileHanderData(data=file_handler_data)
         StringData(data=encoding)
-        for file_path, data_dict in tqdm(file_handler_data.items(), desc='LWriting data...', disable=not progress_bar):
-            ext = get_ext(file_path=file_path, valid_keys=decider)
-            return decider[ext].write(
-                file_path=file_path,
-                encoding=encoding,
-                data=data_dict,
-                mode=mode
-            )
+        if multiprocess:
+            with Pool() as p:
+                list(
+                    tqdm(
+                        p.imap(partial(writer, encoding=encoding, mode=mode), file_handler_data.items()),
+                        disable=not progress_bar,
+                        total=len(file_handler_data),
+                        desc='Writing data...'
+                    )
+                )
+        else:
+            [
+                writer((file_path, file_path_data), mode=mode, encoding=encoding) for file_path, file_path_data in tqdm(
+                    file_handler_data.items(),
+                    desc='Writing data...',
+                    disable=not progress_bar)
+            ]
         
     def deserialize_datetimes_in_json(json:dict):
         "json files don't accept datetime object, so they are saved converting datetime objects in string in isoformat. This method converts strings that matchs isoformat to a datetime back again"
         return deserialize_datetime(json)
+
+# from multiprocess import Pool
+# from pandas import read_excel
+# from os import listdir
+# from os.path import join
+# from functools import partial
+# from tqdm import tqdm
+
+
+
+# path = r'C:\Users\bes8\OneDrive - PETROBRAS\BDOC GR\Desenvolvimento\Painéis em Power BI\PG_GR - Cronoweb - Visão SM-PG-GR\Cronoweb'
+# file_paths = [join(path, k) for k in listdir(path)]
+
+# def read_file(file, sheet_name):
+#     return read_excel(file, sheet_name=sheet_name)
+
+# pool = Pool()
+# results = tqdm(pool.imap(partial(read_excel, sheet_name=None), file_paths))
+# pool.close()

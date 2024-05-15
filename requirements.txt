@@ -4,3 +4,4 @@ pandas
 python-pptx
 openpyxl
 fastparquet
+multiprocess
