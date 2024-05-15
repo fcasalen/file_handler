@@ -19,7 +19,7 @@ decider = {
 
 class FileHandler:
     @staticmethod
-    def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False):
+    def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False, progress_bar:bool = True):
         """
         will load files in a nested dictionary like this:
 
@@ -57,7 +57,7 @@ class FileHandler:
                 file_path=file_path,
                 encoding=encoding,
                 mode = mode
-            ) for file_path in tqdm(file_paths, desc='Loading data...')
+            ) for file_path in tqdm(file_paths, desc='Loading data...', disable=not progress_bar)
         }
         if load_first_value:
             first_value:dict = list(data.values())[0]
@@ -65,7 +65,7 @@ class FileHandler:
         return data
     
     @staticmethod
-    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w'):
+    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w', progress_bar:bool = True):
         """
         will write files as indicading in `file_handler_data` that needs to be a nested diciontary like this:
 
@@ -106,7 +106,7 @@ class FileHandler:
         """
         FileHanderData(data=file_handler_data)
         StringData(data=encoding)
-        for file_path, data_dict in tqdm(file_handler_data.items(), desc='LWriting data...'):
+        for file_path, data_dict in tqdm(file_handler_data.items(), desc='LWriting data...', disable=not progress_bar):
             ext = get_ext(file_path=file_path, valid_keys=decider)
             return decider[ext].write(
                 file_path=file_path,

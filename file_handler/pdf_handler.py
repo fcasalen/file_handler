@@ -2,7 +2,6 @@ from pdfminer.high_level import extract_pages
 from pdfminer.layout import LTTextBoxHorizontal, LTFigure, LTImage
 # import pytesseract
 # from PIL import Image
-from tqdm import tqdm
 from io import BytesIO
 from .validators import TxtData
 from .utils import error_loading, adjust_phrases
@@ -13,7 +12,7 @@ class PDFHandler:
     def load(file_path:str, encoding:str, mode:str = 'r'):
         try:
             pages = {}
-            for numPage, pagina_layout in tqdm(enumerate(extract_pages(file_path), start=1), desc = f'Extracting pages from pdf file {file_path}'):
+            for numPage, pagina_layout in enumerate(extract_pages(file_path), start=1):
                 page_text = ""
                 for element in pagina_layout:
                     if isinstance(element, LTTextBoxHorizontal):

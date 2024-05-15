@@ -1,5 +1,4 @@
 from pptx import Presentation
-from tqdm import tqdm
 from .utils import error_loading
 from .validators import TxtData
 
@@ -20,7 +19,7 @@ class PPTHandler:
         try:
             presentation = Presentation(file_path)
             text = []
-            for numSlide, slide in tqdm(enumerate(presentation.slides, start=1), desc=f'Extracting slides from ppt file {file_path}'):
+            for numSlide, slide in enumerate(presentation.slides, start=1):
                 for shape in slide.shapes:
                     if shape.has_text_frame:
                         for paragraph in shape.text_frame.paragraphs:
