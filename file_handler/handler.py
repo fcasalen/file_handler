@@ -106,8 +106,11 @@ class FileHandler:
             )
         }
         if load_first_value:
-            first_value:dict = list(data.values())[0]
-            data = list(first_value.values())[0]
+            if len(file_paths) == 1:
+                first_value:dict = list(data.values())[0]
+                data = list(first_value.values())[0]
+            else:
+                data = {k:v[list(v)[0]] for k,v in data.items()}
         return data
     
     @staticmethod
