@@ -6,12 +6,18 @@ from .json_handler import JsonHandler
 def test_all():
     file_path = join(dirname(__file__), 'mocks/Dickinson_Sample_Slides.pptx')
     data = FileHandler.load(file_paths=file_path)
-    data_expected = JsonHandler.load(file_path=join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), encoding='utf-8')['Unique']
+    data_expected = JsonHandler.load(
+        file_path_with_password=(join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), None),
+        encoding='utf-8'
+    )['Unique']
     assert data == {file_path: data_expected}
     data = FileHandler.load(file_paths=file_path, multiprocess=True)
     assert data == {file_path: data_expected}
     data = FileHandler.load(file_paths=join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), load_first_value=True)
-    data_expected = JsonHandler.load(file_path=join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), encoding='utf-8')['Unique']
+    data_expected = JsonHandler.load(
+        file_path_with_password=(join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), None),
+        encoding='utf-8'
+    )['Unique']
     assert data == data_expected
     file_path = join(dirname(__file__), 'mocks/test.json')
     json_data = {'test_key': 2}
@@ -23,7 +29,10 @@ def test_all():
     data = FileHandler.load(file_paths=[file_path, file_path2], multiprocess=True)
     assert data == {
         file_path: {'Unique': json_data},
-        file_path2: JsonHandler.load(file_path=join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), encoding='utf-8')['Unique']
+        file_path2: JsonHandler.load(
+            file_path_with_password=(join(dirname(__file__), 'mocks/Dickinson_Sample_Slides_extracted.json'), None),
+            encoding='utf-8'
+        )['Unique']
     }
     remove(file_path)
     file_path = join(dirname(__file__), 'mocks/test.txt')

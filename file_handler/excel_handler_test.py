@@ -8,7 +8,7 @@ def test_all():
     data = {'Sheet1': df}
     file_path = join(dirname(__file__), 'excel_handler_test.xlsx')
     ExcelHandler.write(file_path=file_path, encoding='utf-8', data=data)
-    load_dict = ExcelHandler.load(file_path=file_path, encoding='utf-8')
+    load_dict = ExcelHandler.load(file_path_with_password=(file_path, None), encoding='utf-8')
     assert list(load_dict.keys()) == ['Sheet1']
     assert load_dict['Sheet1'].equals(df)
     df2 =  DataFrame({'Col1': [2,3]})
@@ -17,7 +17,7 @@ def test_all():
         "Sheet2": df2
     }
     ExcelHandler.write(file_path=file_path, encoding='utf-8', data=data)
-    load_dict = ExcelHandler.load(file_path=file_path, encoding='utf-8')
+    load_dict = ExcelHandler.load(file_path_with_password=(file_path, None), encoding='utf-8')
     assert list(load_dict.keys()) == ['Sheet1', 'Sheet2']
     assert load_dict['Sheet1'].equals(df)
     assert load_dict['Sheet2'].equals(df2)

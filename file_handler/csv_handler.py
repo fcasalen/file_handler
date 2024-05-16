@@ -3,7 +3,8 @@ from .validators import DataFrameData
 from .utils import error_loading
 
 class CSVHandler:
-    def load(file_path:str, encoding:str, mode:str = 'r'):
+    def load(file_path_with_password:tuple[str, str], encoding:str, mode:str = 'r'):
+        file_path, password = file_path_with_password
         try:
             return {'Unique': read_csv(file_path)}
         except Exception as error:

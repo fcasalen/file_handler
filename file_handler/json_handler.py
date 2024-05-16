@@ -3,7 +3,8 @@ from .validators import JsonData
 from .utils import serialize_datetime, error_loading
 
 class JsonHandler:
-    def load(file_path:str, encoding:str, mode:str = 'r'):
+    def load(file_path_with_password:tuple[str, str], encoding:str, mode:str = 'r'):
+        file_path, password = file_path_with_password
         try:
             if mode == 'rb':
                 encoding = None

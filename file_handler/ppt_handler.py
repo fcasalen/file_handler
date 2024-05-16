@@ -14,7 +14,8 @@ def extract_text_from_ppt(ppt_file):
     return '\n'.join(text)
 
 class PPTHandler:
-    def load(file_path:str, encoding:str, mode:str = 'r'):
+    def load(file_path_with_password:tuple[str, str], encoding:str, mode:str = 'r'):
+        file_path, password = file_path_with_password
         slides = {}
         try:
             presentation = Presentation(file_path)

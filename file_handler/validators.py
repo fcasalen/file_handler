@@ -13,7 +13,7 @@ class JsonData(BaseModel):
     data:dict[str, list|dict|str|int|float|bool|None]
 
 class FilePaths(BaseModel):
-    file_paths:list[str]
+    file_paths:dict[str, str|None]
 
     @field_validator("file_paths")
     def validate_file_exists(cls, value):

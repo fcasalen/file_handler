@@ -19,9 +19,9 @@ decider = {
     '.pptx': PPTHandler
 }
 
-def loader(file_path:str, encoding:str, mode:str):
-    return decider[get_ext(file_path=file_path, valid_keys=decider)].load(
-        file_path=file_path,
+def loader(file_path_with_password:tuple[str, str], encoding:str, mode:str):
+    return decider[get_ext(file_path=file_path_with_password[0], valid_keys=decider)].load(
+        file_path_with_password=file_path_with_password,
         encoding=encoding,
         mode = mode
     )
@@ -37,8 +37,14 @@ def writer(file_hander_data_items:tuple, encoding:str, mode:str):
 
 class FileHandler:
     @staticmethod
-    def load(file_paths:str|list[str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False, progress_bar:bool = True, multiprocess:bool = False):
+    def load(file_paths:str|list[str]|dict[str, str], encoding:str = 'utf-8', mode:str = 'r', load_first_value:bool = False, progress_bar:bool = True, multiprocess:bool = False):
         """
+        `file_paths` should be a dic with keys as the paths for the files and the values as the passwords for the files.
+        
+        If `file_paths` is string, it will be treated as a unique path with no password.
+        
+        If `file_paths` is a list, it will be consider as a list of paths with no password.
+        
         will load files in a nested dictionary like this:
 
         {
@@ -71,14 +77,16 @@ class FileHandler:
         
         """
         if isinstance(file_paths, str):
-            file_paths = [file_paths]
+            file_paths = {file_paths: None}
+        if isinstance(file_paths, list):
+            file_paths = {f:None for f in file_paths}
         FilePaths(file_paths=file_paths)
         StringData(data=encoding)
         if multiprocess:
             with Pool() as p:
                 results = list(
                     tqdm(
-                        p.imap(partial(loader, encoding=encoding, mode=mode), file_paths),
+                        p.imap(partial(loader, encoding=encoding, mode=mode), file_paths.items()),
                         disable=not progress_bar,
                         total=len(file_paths),
                         desc='Loading data...'
@@ -87,12 +95,12 @@ class FileHandler:
             data = {file_path:result for file_path, result in zip(file_paths, results)}
         else:
             data = {
-            file_path: loader(
-                file_path=file_path,
+            file_path_with_password[0]: loader(
+                file_path_with_password=file_path_with_password,
                 encoding=encoding,
                 mode = mode
-            ) for file_path in tqdm(
-                file_paths,
+            ) for file_path_with_password in tqdm(
+                file_paths.items(),
                 disable=not progress_bar,
                 desc='Loading data...'
             )

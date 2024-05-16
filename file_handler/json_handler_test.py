@@ -7,18 +7,18 @@ def test_all():
     data = {'ha': ['ha']}
     file_path = join(dirname(__file__), 'txt_handler_test.json')
     JsonHandler.write(file_path=file_path, encoding='utf-8', data=data)
-    assert JsonHandler.load(file_path=file_path, encoding='utf-8') == {'Unique': data}
+    assert JsonHandler.load(file_path_with_password=(file_path, None), encoding='utf-8') == {'Unique': data}
     data = {'Unique': ['ha']}
     file_path = join(dirname(__file__), 'txt_handler_test.json')
     JsonHandler.write(file_path=file_path, encoding='utf-8', data=data)
-    assert JsonHandler.load(file_path=file_path, encoding='utf-8') == {'Unique': list(data.values())[0]}
+    assert JsonHandler.load(file_path_with_password=(file_path, None), encoding='utf-8') == {'Unique': list(data.values())[0]}
     fake_dt = datetime(2023,1,1)
     data = {
         'ha': [fake_dt],
         "lol": ["lol"]
     }
     JsonHandler.write(file_path=file_path, encoding='utf-8', data=data)
-    assert JsonHandler.load(file_path=file_path, encoding='utf-8') == {
+    assert JsonHandler.load(file_path_with_password=(file_path, None), encoding='utf-8') == {
         'Unique': {
             'ha': [fake_dt.isoformat()],
             'lol': ['lol']
@@ -32,7 +32,7 @@ def test_all():
         'two': ['lol2']
     }
     JsonHandler.write(file_path=file_path, encoding='utf-8', data=data)
-    assert JsonHandler.load(file_path=file_path, encoding='utf-8') == {
+    assert JsonHandler.load(file_path_with_password=(file_path, None), encoding='utf-8') == {
         'Unique': {
             'one': {
                 'ha': fake_dt.isoformat(),

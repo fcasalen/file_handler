@@ -1,18 +1,30 @@
 from pdfminer.high_level import extract_pages
-from pdfminer.layout import LTTextBoxHorizontal, LTFigure, LTImage
+from pdfminer.layout import LTTextBoxHorizontal, LTFigure#, LTImage
+from pdfminer.pdfparser import PDFParser
+from pdfminer.pdfdocument import PDFDocument, PDFPasswordIncorrect
+from warnings import warn
 # import pytesseract
 # from PIL import Image
-from io import BytesIO
+#from io import BytesIO
 from .validators import TxtData
 from .utils import error_loading, adjust_phrases
 
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Users\xxxx\AppData\Local\Programs\Tesseract-OCR\\tesseract.exe'
 
 class PDFHandler:
-    def load(file_path:str, encoding:str, mode:str = 'r'):
+    def load(file_path_with_password:tuple[str, str], encoding:str, mode:str = 'r'):
+        file_path, password = file_path_with_password
+        try:
+            with open(file_path, 'rb') as file:
+                parser = PDFParser(file)
+                PDFDocument(parser, password=password)
+        except PDFPasswordIncorrect:
+            warn_msg = f"PDF file {file_path} is encrtyped. Need password! Loading data with this error meessage!"
+            warn(warn_msg)
+            return {'Unique': warn_msg}
         try:
             pages = {}
-            for numPage, pagina_layout in enumerate(extract_pages(file_path), start=1):
+            for numPage, pagina_layout in enumerate(extract_pages(pdf_file=file_path, password=password), start=1):
                 page_text = ""
                 for element in pagina_layout:
                     if isinstance(element, LTTextBoxHorizontal):
