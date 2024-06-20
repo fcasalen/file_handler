@@ -42,4 +42,7 @@ def test_all():
         }
     }
     remove(file_path)
+    JsonHandler.write(file_path=file_path, encoding='utf-8', data=[1,2])
+    assert JsonHandler.load(file_path_with_password=(file_path, None), encoding='utf-8') == {'Unique': [1,2]}
+    remove(file_path)
     

@@ -10,7 +10,7 @@ class TxtData(BaseModel):
     data:str|dict[str, str]
 
 class JsonData(BaseModel):
-    data:dict[str, list|dict|str|int|float|bool|None]
+    data:list|dict[str, list|dict|str|int|float|bool|None]
 
 class FilePaths(BaseModel):
     file_paths:dict[str, str|None]
