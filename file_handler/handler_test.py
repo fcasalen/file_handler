@@ -3,7 +3,7 @@ from os import remove
 from .handler import FileHandler
 from .json_handler import JsonHandler
 
-def test_all():
+def test_pptx_single_and_multi_process():
     file_path = join(dirname(__file__), 'mocks/Dickinson_Sample_Slides.pptx')
     data = FileHandler.load(file_paths=file_path)
     data_expected = JsonHandler.load(
@@ -19,6 +19,8 @@ def test_all():
         encoding='utf-8'
     )['Unique']
     assert data == data_expected
+
+def test_json_and_ppt_writing_at_same_time():
     file_path = join(dirname(__file__), 'mocks/test.json')
     json_data = {'test_key': 2}
     FileHandler.write(file_handler_data={file_path: json_data})
@@ -41,6 +43,8 @@ def test_all():
         encoding='utf-8'
     )['Unique']
     assert data == data_expected
+
+def test_pdf_and_pptx_at_same_time():
     file_path = join(dirname(__file__), 'mocks/Dickinson_Sample_Slides.pptx')
     file_path2 = join(dirname(__file__), 'mocks/somatosensory.pdf')
     data = FileHandler.load(file_paths=[file_path, file_path2], multiprocess=True, load_first_value=True)
@@ -53,9 +57,20 @@ def test_all():
         encoding='utf-8'
     )['Unique']['Page 1']
     assert data == {file_path: data_expected, file_path2: data_expected2}
+
+def test_txt():
     file_path = join(dirname(__file__), 'mocks/test.txt')
     json_data = 'oi'
     FileHandler.write(file_handler_data={file_path: json_data})
     data = FileHandler.load(file_paths=file_path)
     assert data == {file_path: {'Unique': json_data}}
     remove(file_path)
+
+def test_json_with_list():
+    file_path = join(dirname(__file__), 'mocks/test.json')
+    FileHandler.write(file_handler_data={file_path: [1, 2]})
+    data = FileHandler.load(file_paths=file_path)
+    assert data == {file_path: {'Unique': [1, 2]}}
+    remove(file_path)
+    
+    

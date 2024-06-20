@@ -114,7 +114,7 @@ class FileHandler:
         return data
     
     @staticmethod
-    def write(file_handler_data:dict[str, dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w', progress_bar:bool = True, multiprocess:bool = False):
+    def write(file_handler_data:dict[str, list|dict[str, str|dict|DataFrame]], encoding:str = 'utf-8', mode:str = 'w', progress_bar:bool = True, multiprocess:bool = False):
         """
         will write files as indicading in `file_handler_data` that needs to be a nested diciontary like this:
 

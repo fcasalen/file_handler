@@ -23,7 +23,7 @@ class FilePaths(BaseModel):
 
 class FileHanderData(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
-    data:dict[str, str|DataFrame|dict[str, list|dict|str|int|float|bool|None|DataFrame]]
+    data:dict[str, str|DataFrame|list|dict[str, list|dict|str|int|float|bool|None|DataFrame]]
 
     @field_validator("data")
     def validate_file_exists(cls, value):
