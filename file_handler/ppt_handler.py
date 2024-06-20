@@ -14,6 +14,7 @@ def extract_text_from_ppt(ppt_file):
     return '\n'.join(text)
 
 class PPTHandler:
+    @staticmethod
     def load(file_path_with_password:tuple[str, str], encoding:str, mode:str = 'r'):
         file_path, password = file_path_with_password
         slides = {}
@@ -31,6 +32,7 @@ class PPTHandler:
         except Exception as error:
             return error_loading(file_path, error=error)
 
+    @staticmethod
     def write(file_path:str, encoding:str, data:dict[str, str], mode:str = 'w'):
         TxtData(data=data)
         print("I can't write ppt files yet!")

@@ -2,6 +2,7 @@ from .validators import TxtData
 from .utils import error_loading
 
 class TxtHandler:
+    @staticmethod
     def load(file_path_with_password:tuple[str, str], encoding:str, mode:str = 'r'):
         file_path, password = file_path_with_password
         try:
@@ -13,6 +14,7 @@ class TxtHandler:
         except Exception as error:
             return error_loading(file_path, error=error)
 
+    @staticmethod
     def write(file_path:str, encoding:str, data:str|dict[str, str], mode:str = 'w'):
         TxtData(data=data)
         if mode == 'wb':
