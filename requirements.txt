@@ -1,7 +1,7 @@
-tqdm
-pdfminer.six
-pandas
-python-pptx
-openpyxl
-fastparquet
 multiprocess
+pandas
+pdfminer.six
+pydantic
+python_pptx
+setuptools
+tqdm
