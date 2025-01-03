@@ -2,11 +2,13 @@ from pandas import DataFrame
 from tqdm import tqdm
 from multiprocess import Pool
 from functools import partial
-from .json_handler import JsonHandler
-from .txt_handler import TxtHandler
+from .csv_handler import CSVHandler
 from .excel_handler import ExcelHandler
+from .json_handler import JsonHandler
+from .parquet_handler import ParquetHandler
 from .pdf_handler import PDFHandler
 from .ppt_handler import PPTHandler
+from .txt_handler import TxtHandler
 from .validators import StringData, FilePaths, FileHanderData
 from .utils import get_ext, deserialize_datetime
 
@@ -16,7 +18,9 @@ decider = {
     '.xlsx': ExcelHandler,
     '.pdf': PDFHandler,
     '.ppt': PPTHandler,
-    '.pptx': PPTHandler
+    '.pptx': PPTHandler,
+    '.csv': CSVHandler,
+    '.parquet': ParquetHandler
 }
 
 def loader(file_path_with_password:tuple[str, str], encoding:str, mode:str):
