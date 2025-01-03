@@ -12,8 +12,11 @@ class ParquetHandler:
             return error_loading(file_path, error=error)
 
     @staticmethod
-    def write(file_path:str, encoding:str, data:dict[str, DataFrame], mode:str = 'w'):
+    def write(file_path:str, encoding:str, data:DataFrame|dict[str, DataFrame], mode:str = 'w'):
         DataFrameData(data=data)
+        if isinstance(data, DataFrame):
+            data.to_parquet(file_path, index=False)
+            return
         if len(data.keys()) > 1:
             for k,v in data.items():
                 v.to_parquet(f'{file_path.replace(".parquet", "")}_{k}.parquet', index=False)
