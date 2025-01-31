@@ -15,8 +15,11 @@ class TxtHandler:
             return error_loading(file_path, error=error)
 
     @staticmethod
-    def write(file_path:str, encoding:str, data:str|dict[str, str], mode:str = 'w'):
+    def write(file_path:str, encoding:str, data:bytes|str|dict[str, str], mode:str = 'w'):
         TxtData(data=data)
+        if isinstance(data, bytes):
+            print('will write in wb mode, since the input is bytes')
+            mode = 'wb'
         if mode == 'wb':
             encoding = None
         if not isinstance(data, str):

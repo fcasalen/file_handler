@@ -18,6 +18,9 @@ class JsonHandler:
     @staticmethod
     def write(file_path:str, encoding:str, data:list|dict[str, list|dict|str|int|float|bool|None], mode:str = 'w'):
         JsonData(data=data)
+        if isinstance(data, bytes):
+            print('will write in wb mode, since the input is bytes')
+            mode = 'wb'
         if mode == 'wb':
             encoding = None
         if isinstance(data, dict):

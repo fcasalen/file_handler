@@ -23,8 +23,15 @@ decider = {
     '.parquet': ParquetHandler
 }
 
+def get_decider(file_path:str, mode:str):
+    actual_decider = decider[get_ext(file_path=file_path,  valid_keys=decider)]
+    if 'b' in mode and actual_decider not in [JsonHandler, TxtHandler]:
+        actual_decider = JsonHandler
+        print('Will write in txt file, since the mode has binary argument')
+    return actual_decider
+
 def loader(file_path_with_password:tuple[str, str], encoding:str, mode:str):
-    return decider[get_ext(file_path=file_path_with_password[0], valid_keys=decider)].load(
+    return get_decider(file_path=file_path_with_password[0], mode=mode).load(
         file_path_with_password=file_path_with_password,
         encoding=encoding,
         mode = mode
@@ -32,7 +39,7 @@ def loader(file_path_with_password:tuple[str, str], encoding:str, mode:str):
 
 def writer(file_hander_data_items:tuple, encoding:str, mode:str):
     file_path, data_dict = file_hander_data_items
-    decider[get_ext(file_path=file_path, valid_keys=decider)].write(
+    get_decider(file_path=file_path, mode=mode).write(
         file_path=file_path,
         encoding=encoding,
         data=data_dict,
