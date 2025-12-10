@@ -1,7 +1,0 @@
-multiprocess
-pandas
-pdfminer.six
-pydantic
-python_pptx
-setuptools
-tqdm

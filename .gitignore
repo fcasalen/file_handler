@@ -4,3 +4,6 @@
 */dist/
 /build/
 *.tar.gz
+__pycache__/
+.coverage
+*error.log
