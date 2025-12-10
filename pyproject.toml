@@ -30,21 +30,20 @@ vcs = "git"
 format = "{base}"
 
 [tool.poetry.dependencies]
-multiprocess = "*"
-pandas = "*"
-"pdfminer.six" = "*"
-pydantic = "*"
-python_pptx = "*"
-tqdm = "*"
+multiprocess = "^0.70.18"
+pandas = "^2.3.3"
+"pdfminer.six" = "20251107"
+python_pptx = "^1.0.2"
+tqdm = "^4.67.1"
 loguru = "^0.7.3"
 openpyxl = "^3.1.5"
 pyarrow = "^22.0.0"
 fastparquet = "^2024.11.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "*"
-detect = "*"
-pytest-cov = "*"
+pytest = "^9.0.1"
+detect = "^2020.12.3"
+pytest-cov = "^7.0.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
