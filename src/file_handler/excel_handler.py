@@ -19,7 +19,15 @@ def load(
         the dataframes
     :rtype: dict[str, pd.DataFrame]
     """
-    df_dict = pd.read_excel(file_path, sheet_name=None)
+    if file_path.suffix.lower() == ".xlsx":
+        engine = "calamine"
+    elif file_path.suffix.lower() == ".xls":
+        engine = "xlrd"
+    elif file_path.suffix.lower() == ".xlsb":
+        engine = "pyxlsb"
+    else:
+        engine = None  # let pandas decide
+    df_dict = pd.read_excel(file_path, sheet_name=None, engine=engine)
     for sht in df_dict:
         df_dict[sht] = df_dict[sht].fillna(pd.NA).convert_dtypes()
     return df_dict

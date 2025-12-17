@@ -334,8 +334,7 @@ class TestTXT:
         assert result == {
             str(
                 file_path
-            ): f"Error loading file {str(file_path)}: Excel file format cannot be "
-            f"determined, you must specify an engine manually."
+            ): f"Error loading file {str(file_path)}: Cannot detect file format"
         }
 
     def test_txt_round_trip_multiple_files_as_list(self, tmp_path: Path):
